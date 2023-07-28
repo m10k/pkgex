@@ -183,7 +183,7 @@ parse_primary_pkgex() {
 		tokens_used=1
 
 		if ! pkgex=$(parse_logical_or_pkgex "${tokens[@]:$tokens_used}"); then
-			log_error "Expected logical-OR-regex near \"${tokens[*]:$tokens_used:1}\""
+			log_error "Expected logical-OR-pkgex near \"${tokens[*]:$tokens_used:1}\""
 			return 1
 		fi
 

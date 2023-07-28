@@ -32,8 +32,8 @@ parse_rule_list() {
 
 		(( used_tokens += $(node_get_num_tokens "$rule") ))
 
-		data=$(json_object "rule"      "$rule"     \
-		                   "rule_list" "$rule_list")
+		data=$(json_object "rule" "$rule"     \
+		                   "next" "$rule_list")
 
 		rule_list=$(node_new "$used_tokens" "rule_list" "$data")
 	done
@@ -79,10 +79,10 @@ parse_rule() {
 		return 1
 	fi
 
-	data=$(json_object "repository"       "$repository"       \
-	                   "colon"            "$colon"            \
-	                   "logical_or_pkgex" "$logical_or_pkgex" \
-	                   "semicolon"        "$semicolon")
+	data=$(json_object "repository" "$repository"       \
+	                   "colon"      "$colon"            \
+	                   "pkgex"      "$logical_or_pkgex" \
+	                   "semicolon"  "$semicolon")
 
 	node_new "$used_tokens" "rule" "$data"
 	return "$?"
@@ -110,9 +110,9 @@ parse_logical_or_pkgex() {
 		(( used_tokens += $(node_get_num_tokens "$logical_and_pkgex") ))
 		operator="${tokens[$used_tokens]}"
 
-		data=$(json_object "logical_and_pkgex" "$logical_and_pkgex" \
-		                   "operator"          "$operator"          \
-		                   "logical_or_pkgex"  "$logical_or_pkgex")
+		data=$(json_object "right_child" "$logical_and_pkgex" \
+		                   "operator"    "$operator"          \
+		                   "left_child"  "$logical_or_pkgex")
 
 		logical_or_pkgex=$(node_new "$used_tokens" "logical_or_pkgex" "$data")
 
@@ -149,9 +149,9 @@ parse_logical_and_pkgex() {
 		(( used_tokens += $(node_get_num_tokens "$primary_pkgex") ))
 		operator="${tokens[$used_tokens]}"
 
-		data=$(json_object "primary_pkgex" "$primary_pkgex"        \
-		                   "operator" "$operator"                  \
-		                   "logical_and_pkgex" "$logical_and_pkgex")
+		data=$(json_object "right_child" "$primary_pkgex"    \
+		                   "operator"    "$operator"         \
+		                   "left_child"  "$logical_and_pkgex")
 
 		logical_and_pkgex=$(node_new "$used_tokens" "logical_and_pkgex" "$data")
 
@@ -195,9 +195,9 @@ parse_primary_pkgex() {
 			return 1
 		fi
 
-		data=$(json_object "lparen"           "$lparen" \
-				   "logical_or_pkgex" "$pkgex"  \
-				   "rparen"           "$rparen")
+		data=$(json_object "lparen" "$lparen" \
+				   "child"  "$pkgex"  \
+				   "rparen" "$rparen")
 		(( tokens_used++ ))
 	else
 		# primary-pkgex = property operator identifier
@@ -224,8 +224,8 @@ parse_primary_pkgex() {
 		fi
 		(( tokens_used++ ))
 
-		data=$(json_object "property" "$property"    \
-				   "operator" "$operator"    \
+		data=$(json_object "property"   "$property"  \
+				   "operator"   "$operator"  \
 				   "identifier" "$identifier")
 	fi
 

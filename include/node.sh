@@ -57,7 +57,7 @@ node_get_child() {
 node_get_num_tokens() {
 	local node="$1"
 
-        if ! jq -e '.num_tokens' <<< "$node"; then
+	if ! jq -e '.num_tokens' <<< "$node"; then
 		return 1
 	fi
 

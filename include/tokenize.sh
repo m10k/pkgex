@@ -8,7 +8,7 @@ tokenize() {
 	case "${input:0:1}" in
 		'<'|'>'|'!')
 			tokenize_cmp_op "${input:0:1}" "${input:1}"
-		        ;;
+			;;
 
 		'=')
 			tokenize_eq_op "${input:0:1}" "${input:1}"

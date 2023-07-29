@@ -196,8 +196,8 @@ parse_primary_pkgex() {
 		fi
 
 		data=$(json_object "lparen" "$lparen" \
-				   "child"  "$pkgex"  \
-				   "rparen" "$rparen")
+		                   "child"  "$pkgex"  \
+		                   "rparen" "$rparen")
 		(( tokens_used++ ))
 	else
 		# primary-pkgex = property operator identifier
@@ -225,8 +225,8 @@ parse_primary_pkgex() {
 		(( tokens_used++ ))
 
 		data=$(json_object "property"   "$property"  \
-				   "operator"   "$operator"  \
-				   "identifier" "$identifier")
+		                   "operator"   "$operator"  \
+		                   "identifier" "$identifier")
 	fi
 
 	node_new "$tokens_used" "primary-pkgex" "$data"

@@ -103,7 +103,7 @@ parse_logical_or_pkgex() {
 		local data
 
 		if ! logical_and_pkgex=$(parse_logical_and_pkgex "${tokens[@]:$used_tokens}"); then
-			log_error "Expected logical-AND-pkgex near \"${tokens[$used_tokens}\""
+			log_error "Expected logical-AND-pkgex near \"${tokens[$used_tokens]}\""
 			return 1
 		fi
 
